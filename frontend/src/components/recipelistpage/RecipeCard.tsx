@@ -21,7 +21,12 @@ const RecipeCard = function RecipeCard({ recipe }: RecipeCardProps) {
     <div className={"flex flex-col justify-between"}>
       <div>
         {/*<Link to={"/recipes/$recipeId"} params={{ recipeId: recipe.id }}>*/}
-        <Link>
+        <Link
+          to={"/recipes/$recipeId"}
+          params={{
+            recipeId: recipe.id,
+          }}
+        >
           <div className={"overflow-hidden"}>
             <img
               className="mb-2 h-48 max-h-full w-full max-w-full transform rounded object-cover transition-all duration-500 ease-in-out hover:scale-110"

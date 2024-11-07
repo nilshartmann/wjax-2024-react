@@ -11,6 +11,6 @@ export async function incrementLikeOnServer() {
   if (likes > 5) {
     throw new Error("Too many likes");
   }
-  likes = await longRunningOperation(likes + 1, 3000);
+  likes = await longRunningOperation(likes + 1, 2000);
   return likes;
 }

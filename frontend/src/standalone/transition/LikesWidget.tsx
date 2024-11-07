@@ -1,45 +1,49 @@
 import { twMerge } from "tailwind-merge";
-import React, { ReactNode, useActionState, useState } from "react";
+import React, {
+  ReactNode,
+  useActionState,
+  useOptimistic,
+  useState,
+  useTransition,
+} from "react";
 import { LikeIndicator } from "../../components/LoadingIndicator.tsx";
 import { longRunningOperation } from "./utils.ts";
 import { incrementLikeOnServer } from "./increment-like-on-server.ts";
+import { ErrorBoundary } from "react-error-boundary";
 
 type LikesWidgetProps = {
   initialLikes: number;
 };
 
 // eb
+export default function LikesWidgetWrapper({ initialLikes }: LikesWidgetProps) {
+  return (
+    <ErrorBoundary fallback={"Could not like"}>
+      <LikesWidget initialLikes={initialLikes} />
+    </ErrorBoundary>
+  );
+}
 
-export default function LikesWidget({ initialLikes }: LikesWidgetProps) {
+export function LikesWidget({ initialLikes }: LikesWidgetProps) {
   const [likes, setLikes] = useState(initialLikes);
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  const [optimisticLikes, setOptimisticLikes] = useOptimistic(likes);
 
   // tr1
   // ol
 
   const handleLikeClick = async () => {
-    setIsPending(true);
-
-    // todo: Transition
-    // todo: optimistic
-
-    try {
+    startTransition(async () => {
+      setOptimisticLikes(likes + 1);
       const newLikes = await incrementLikeOnServer();
       setLikes(newLikes);
-      setIsPending(false);
-    } catch (err) {
-      setError(String(err));
-    }
+    });
   };
-
-  if (error) {
-    return <div>Could not like :-(</div>;
-  }
 
   return (
     <LikeButton disabled={isPending} onClick={handleLikeClick}>
-      <span>{likes}</span>
+      <span>{optimisticLikes}</span>
       {isPending ? <LikeIndicator /> : <HeartIcon />}
     </LikeButton>
   );

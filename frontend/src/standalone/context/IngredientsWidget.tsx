@@ -170,7 +170,7 @@ function Price({ id, price }: PriceProps) {
   const [showPrices, setShowPrices] = useState(true);
 
   // todo: use(CurrencyContext)!
-  const currency = useContext(CurrencyContext);
+  const currency = showPrices ? use(CurrencyContext) : null;
 
   return (
     <>
