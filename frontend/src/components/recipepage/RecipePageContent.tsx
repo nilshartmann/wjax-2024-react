@@ -19,29 +19,16 @@ export default function RecipePageContent({ recipe }: RecipePageContentProps) {
   useRecipifyWindowTitle(recipe.title);
 
   return (
-    <div className={"mb-20"}>
+    <div className={"mb-20 ps-4 md:w-2/3"}>
       <RecipeBanner recipe={recipe} />
       <div className={"container mx-auto mb-8 mt-8 md:flex md:space-x-12"}>
-        <div className={"md:w-2/3"}>
+        <div>
           <CookingTime
             cookTime={recipe.cookTime}
             preparationTime={recipe.preparationTime}
           />
           <IngredientsSection ingredients={recipe.ingredients} />
           <Instructions recipe={recipe} />
-        </div>
-        <div className={"md:w-1/3"}>
-          <Sidebar>
-            <H2>Feedback</H2>
-            <Suspense
-              fallback={
-                <LoadingIndicator>Loading feedback...</LoadingIndicator>
-              }
-            >
-              <FeedbackListLoader recipeId={recipe.id} />
-            </Suspense>
-            <FeedbackForm recipeId={recipe.id} />
-          </Sidebar>
         </div>
       </div>
     </div>

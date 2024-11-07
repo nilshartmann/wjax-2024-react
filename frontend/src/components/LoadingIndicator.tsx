@@ -31,3 +31,16 @@ export default function LoadingIndicator({
     </div>
   );
 }
+
+export function LikeIndicator() {
+  const bounceClass = `${styles.bounce}`;
+  const placeholder = <i className="fa-regular fa-heart mr-2"></i>;
+
+  return (
+    <span className={`${styles.Spinner} ${styles.secondary}`}>
+      {/*<div className={`${bounceClass} ${styles.bounce1}`}>{placeholder}</div>*/}
+      <span className={`${bounceClass} ${styles.bounce2}`}>{placeholder}</span>
+      {/*<div className={`${bounceClass} ${styles.bounce3}`}>{placeholder}</div>*/}
+    </span>
+  );
+}

@@ -15,8 +15,6 @@ import { Route as RecipesRouteImport } from "./routes/recipes/route";
 import { Route as StaticRouteImport } from "./routes/_static/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as RecipesIndexImport } from "./routes/recipes/index";
-import { Route as R25compilerIndexImport } from "./routes/25_compiler/index";
-import { Route as R20usecontextIndexImport } from "./routes/20_use_context/index";
 import { Route as StaticPrivacyImport } from "./routes/_static/privacy";
 import { Route as StaticAboutImport } from "./routes/_static/about";
 import { Route as RecipesRecipeIdIndexImport } from "./routes/recipes/$recipeId/index";
@@ -44,18 +42,6 @@ const RecipesIndexRoute = RecipesIndexImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => RecipesRouteRoute,
-} as any);
-
-const R25compilerIndexRoute = R25compilerIndexImport.update({
-  id: "/25_compiler/",
-  path: "/25_compiler/",
-  getParentRoute: () => rootRoute,
-} as any);
-
-const R20usecontextIndexRoute = R20usecontextIndexImport.update({
-  id: "/20_use_context/",
-  path: "/20_use_context/",
-  getParentRoute: () => rootRoute,
 } as any);
 
 const StaticPrivacyRoute = StaticPrivacyImport.update({
@@ -115,20 +101,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof StaticPrivacyImport;
       parentRoute: typeof StaticRouteImport;
     };
-    "/20_use_context/": {
-      id: "/20_use_context/";
-      path: "/20_use_context";
-      fullPath: "/20_use_context";
-      preLoaderRoute: typeof R20usecontextIndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/25_compiler/": {
-      id: "/25_compiler/";
-      path: "/25_compiler";
-      fullPath: "/25_compiler";
-      preLoaderRoute: typeof R25compilerIndexImport;
-      parentRoute: typeof rootRoute;
-    };
     "/recipes/": {
       id: "/recipes/";
       path: "/";
@@ -182,8 +154,6 @@ export interface FileRoutesByFullPath {
   "/recipes": typeof RecipesRouteRouteWithChildren;
   "/about": typeof StaticAboutRoute;
   "/privacy": typeof StaticPrivacyRoute;
-  "/20_use_context": typeof R20usecontextIndexRoute;
-  "/25_compiler": typeof R25compilerIndexRoute;
   "/recipes/": typeof RecipesIndexRoute;
   "/recipes/$recipeId": typeof RecipesRecipeIdIndexRoute;
 }
@@ -193,8 +163,6 @@ export interface FileRoutesByTo {
   "": typeof StaticRouteRouteWithChildren;
   "/about": typeof StaticAboutRoute;
   "/privacy": typeof StaticPrivacyRoute;
-  "/20_use_context": typeof R20usecontextIndexRoute;
-  "/25_compiler": typeof R25compilerIndexRoute;
   "/recipes": typeof RecipesIndexRoute;
   "/recipes/$recipeId": typeof RecipesRecipeIdIndexRoute;
 }
@@ -206,8 +174,6 @@ export interface FileRoutesById {
   "/recipes": typeof RecipesRouteRouteWithChildren;
   "/_static/about": typeof StaticAboutRoute;
   "/_static/privacy": typeof StaticPrivacyRoute;
-  "/20_use_context/": typeof R20usecontextIndexRoute;
-  "/25_compiler/": typeof R25compilerIndexRoute;
   "/recipes/": typeof RecipesIndexRoute;
   "/recipes/$recipeId/": typeof RecipesRecipeIdIndexRoute;
 }
@@ -220,20 +186,10 @@ export interface FileRouteTypes {
     | "/recipes"
     | "/about"
     | "/privacy"
-    | "/20_use_context"
-    | "/25_compiler"
     | "/recipes/"
     | "/recipes/$recipeId";
   fileRoutesByTo: FileRoutesByTo;
-  to:
-    | "/"
-    | ""
-    | "/about"
-    | "/privacy"
-    | "/20_use_context"
-    | "/25_compiler"
-    | "/recipes"
-    | "/recipes/$recipeId";
+  to: "/" | "" | "/about" | "/privacy" | "/recipes" | "/recipes/$recipeId";
   id:
     | "__root__"
     | "/"
@@ -241,8 +197,6 @@ export interface FileRouteTypes {
     | "/recipes"
     | "/_static/about"
     | "/_static/privacy"
-    | "/20_use_context/"
-    | "/25_compiler/"
     | "/recipes/"
     | "/recipes/$recipeId/";
   fileRoutesById: FileRoutesById;
@@ -252,16 +206,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   StaticRouteRoute: typeof StaticRouteRouteWithChildren;
   RecipesRouteRoute: typeof RecipesRouteRouteWithChildren;
-  R20usecontextIndexRoute: typeof R20usecontextIndexRoute;
-  R25compilerIndexRoute: typeof R25compilerIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   StaticRouteRoute: StaticRouteRouteWithChildren,
   RecipesRouteRoute: RecipesRouteRouteWithChildren,
-  R20usecontextIndexRoute: R20usecontextIndexRoute,
-  R25compilerIndexRoute: R25compilerIndexRoute,
 };
 
 export const routeTree = rootRoute
@@ -276,9 +226,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_static",
-        "/recipes",
-        "/20_use_context/",
-        "/25_compiler/"
+        "/recipes"
       ]
     },
     "/": {
@@ -305,12 +253,6 @@ export const routeTree = rootRoute
     "/_static/privacy": {
       "filePath": "_static/privacy.tsx",
       "parent": "/_static"
-    },
-    "/20_use_context/": {
-      "filePath": "20_use_context/index.tsx"
-    },
-    "/25_compiler/": {
-      "filePath": "25_compiler/index.tsx"
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx",
