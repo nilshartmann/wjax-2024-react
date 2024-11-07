@@ -14,15 +14,18 @@ export const Route = createFileRoute("/recipes/$recipeId/")({
   //   tl1
   //   tl3
   //   tl5
+
   component: RouteComponent,
 });
 
 function RouteComponent() {
   // tl2
 
-  return <div className={"flex"}>Hello Recipe Route!</div>;
+  return <div className={"container mx-auto flex"}>Hello Recipe Route!</div>;
 }
 
 // tl4
 
 // tl6
+
+// tsq1

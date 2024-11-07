@@ -17,7 +17,6 @@ import { Route as IndexImport } from "./routes/index";
 import { Route as RecipesIndexImport } from "./routes/recipes/index";
 import { Route as StaticPrivacyImport } from "./routes/_static/privacy";
 import { Route as StaticAboutImport } from "./routes/_static/about";
-import { Route as RecipesRecipeIdIndexImport } from "./routes/recipes/$recipeId/index";
 
 // Create/Update Routes
 
@@ -54,12 +53,6 @@ const StaticAboutRoute = StaticAboutImport.update({
   id: "/about",
   path: "/about",
   getParentRoute: () => StaticRouteRoute,
-} as any);
-
-const RecipesRecipeIdIndexRoute = RecipesRecipeIdIndexImport.update({
-  id: "/$recipeId/",
-  path: "/$recipeId/",
-  getParentRoute: () => RecipesRouteRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -108,13 +101,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof RecipesIndexImport;
       parentRoute: typeof RecipesRouteImport;
     };
-    "/recipes/$recipeId/": {
-      id: "/recipes/$recipeId/";
-      path: "/$recipeId";
-      fullPath: "/recipes/$recipeId";
-      preLoaderRoute: typeof RecipesRecipeIdIndexImport;
-      parentRoute: typeof RecipesRouteImport;
-    };
   }
 }
 
@@ -136,12 +122,10 @@ const StaticRouteRouteWithChildren = StaticRouteRoute._addFileChildren(
 
 interface RecipesRouteRouteChildren {
   RecipesIndexRoute: typeof RecipesIndexRoute;
-  RecipesRecipeIdIndexRoute: typeof RecipesRecipeIdIndexRoute;
 }
 
 const RecipesRouteRouteChildren: RecipesRouteRouteChildren = {
   RecipesIndexRoute: RecipesIndexRoute,
-  RecipesRecipeIdIndexRoute: RecipesRecipeIdIndexRoute,
 };
 
 const RecipesRouteRouteWithChildren = RecipesRouteRoute._addFileChildren(
@@ -155,7 +139,6 @@ export interface FileRoutesByFullPath {
   "/about": typeof StaticAboutRoute;
   "/privacy": typeof StaticPrivacyRoute;
   "/recipes/": typeof RecipesIndexRoute;
-  "/recipes/$recipeId": typeof RecipesRecipeIdIndexRoute;
 }
 
 export interface FileRoutesByTo {
@@ -164,7 +147,6 @@ export interface FileRoutesByTo {
   "/about": typeof StaticAboutRoute;
   "/privacy": typeof StaticPrivacyRoute;
   "/recipes": typeof RecipesIndexRoute;
-  "/recipes/$recipeId": typeof RecipesRecipeIdIndexRoute;
 }
 
 export interface FileRoutesById {
@@ -175,21 +157,13 @@ export interface FileRoutesById {
   "/_static/about": typeof StaticAboutRoute;
   "/_static/privacy": typeof StaticPrivacyRoute;
   "/recipes/": typeof RecipesIndexRoute;
-  "/recipes/$recipeId/": typeof RecipesRecipeIdIndexRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths:
-    | "/"
-    | ""
-    | "/recipes"
-    | "/about"
-    | "/privacy"
-    | "/recipes/"
-    | "/recipes/$recipeId";
+  fullPaths: "/" | "" | "/recipes" | "/about" | "/privacy" | "/recipes/";
   fileRoutesByTo: FileRoutesByTo;
-  to: "/" | "" | "/about" | "/privacy" | "/recipes" | "/recipes/$recipeId";
+  to: "/" | "" | "/about" | "/privacy" | "/recipes";
   id:
     | "__root__"
     | "/"
@@ -197,8 +171,7 @@ export interface FileRouteTypes {
     | "/recipes"
     | "/_static/about"
     | "/_static/privacy"
-    | "/recipes/"
-    | "/recipes/$recipeId/";
+    | "/recipes/";
   fileRoutesById: FileRoutesById;
 }
 
@@ -242,8 +215,7 @@ export const routeTree = rootRoute
     "/recipes": {
       "filePath": "recipes/route.tsx",
       "children": [
-        "/recipes/",
-        "/recipes/$recipeId/"
+        "/recipes/"
       ]
     },
     "/_static/about": {
@@ -256,10 +228,6 @@ export const routeTree = rootRoute
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx",
-      "parent": "/recipes"
-    },
-    "/recipes/$recipeId/": {
-      "filePath": "recipes/$recipeId/index.tsx",
       "parent": "/recipes"
     }
   }

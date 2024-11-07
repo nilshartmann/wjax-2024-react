@@ -23,7 +23,7 @@ function RouteComponent() {
   const data = Route.useLoaderData();
 
   return (
-    <div className={"flex"}>
+    <div className={"container mx-auto flex"}>
       <Suspense fallback={<GlobalLoadingIndicator />}>
         <Recipe recipePromise={data.recipePromise} />
         <Feedback feedbackPromise={data.feedbackPromise} />

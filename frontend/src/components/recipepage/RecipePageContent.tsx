@@ -19,7 +19,7 @@ export default function RecipePageContent({ recipe }: RecipePageContentProps) {
   useRecipifyWindowTitle(recipe.title);
 
   return (
-    <div className={"mb-20 ps-4 md:w-2/3"}>
+    <div className={"mb-20 max-w-screen-lg ps-4 md:w-2/3"}>
       <RecipeBanner recipe={recipe} />
       <div className={"container mx-auto mb-8 mt-8 md:flex md:space-x-12"}>
         <div>

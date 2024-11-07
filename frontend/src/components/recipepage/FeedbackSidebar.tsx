@@ -9,7 +9,7 @@ type FeedbackSidebarProps = {
 
 export default function FeedbackSidebar({ feedbacks }: FeedbackSidebarProps) {
   return (
-    <div className={"mt-28 pe-4 md:w-1/3"}>
+    <div className={"mt-28 max-w-96 pe-4 md:w-1/3"}>
       <Sidebar>
         <H2>Feedback</H2>
         <FeedbackList feedbacks={feedbacks} />

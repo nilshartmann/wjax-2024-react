@@ -205,20 +205,24 @@ export function useSubscribeToNewsletterMutation() {
   });
 }
 
+function patchLike(recipeId: string) {
+  return fetchFromApi(
+    getEndpointConfig("patch", "/api/recipes/{recipeId}/likes"),
+    {
+      path: { recipeId },
+      query: {
+        slowdown: slowDown_IncreaseLikes,
+      },
+    },
+  );
+}
+
 export function useLikeMutation(recipeId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["PUT", "recipes", recipeId, "likes"],
     mutationFn: () => {
-      return fetchFromApi(
-        getEndpointConfig("patch", "/api/recipes/{recipeId}/likes"),
-        {
-          path: { recipeId },
-          query: {
-            slowdown: slowDown_IncreaseLikes,
-          },
-        },
-      );
+      return patchLike(recipeId);
     },
     onSuccess: async (patchLikesResult) => {
       // UPDATE CLIENT-SITE DATA AFTER LIKES:
@@ -235,36 +239,37 @@ export function useLikeMutation(recipeId: string) {
       //         the "invalidate" request is DONE
       //          (only if it is run imediately)
       await queryClient.invalidateQueries({ queryKey: ["recipe-list"] });
+      await queryClient.invalidateQueries({ queryKey: ["recipes", recipeId] });
 
       // Option 2:
       //  Modify the cache data manually
       //    - advantage: no server request neccessary for updates
       //    - disadvantage: duplicating logic from backend
-      queryClient.setQueryData(["recipes", recipeId], (cachedData: unknown) => {
-        if (!cachedData) {
-          return cachedData;
-        }
-        const cachedRecipe = GetRecipeResponse.safeParse(cachedData);
-        if (!cachedRecipe.success) {
-          console.log(
-            "Unknown query data in cache for recipe",
-            recipeId,
-            cachedRecipe,
-            cachedData,
-          );
-          return cachedData;
-        }
-
-        const newData = {
-          ...cachedRecipe.data,
-          recipe: {
-            ...cachedRecipe.data.recipe,
-            likes: patchLikesResult.newLikes,
-          },
-        } satisfies GetRecipeResponse;
-
-        return newData;
-      });
+      // queryClient.setQueryData(["recipes", recipeId], (cachedData: unknown) => {
+      //   if (!cachedData) {
+      //     return cachedData;
+      //   }
+      //   const cachedRecipe = GetRecipeResponse.safeParse(cachedData);
+      //   if (!cachedRecipe.success) {
+      //     console.log(
+      //       "Unknown query data in cache for recipe",
+      //       recipeId,
+      //       cachedRecipe,
+      //       cachedData,
+      //     );
+      //     return cachedData;
+      //   }
+      //
+      //   const newData = {
+      //     ...cachedRecipe.data,
+      //     recipe: {
+      //       ...cachedRecipe.data.recipe,
+      //       likes: patchLikesResult.newLikes,
+      //     },
+      //   } satisfies GetRecipeResponse;
+      //
+      //   return newData;
+      // });
     },
   });
 }

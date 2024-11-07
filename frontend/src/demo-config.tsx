@@ -1,8 +1,14 @@
 /** Single recipe on the /$recipeId route */
-export const slowDown_GetRecipe = 1200;
+export const slowDown_GetRecipe = 0;
 
 /** list of feedbacks on /$recipeId */
-export const slowDown_GetFeedbacks = 1200;
+export const slowDown_GetFeedbacks = 0;
+
+export const query_RefetchOnMount = false;
+
+export const enable_QueryDevTools = false;
+
+// -------------------------------------------------------------------------------
 
 /** number of recipes on /recipes */
 export const recipesPerPage = 6;
