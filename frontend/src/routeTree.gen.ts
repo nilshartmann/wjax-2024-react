@@ -15,6 +15,7 @@ import { Route as RecipesRouteImport } from "./routes/recipes/route";
 import { Route as StaticRouteImport } from "./routes/_static/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as RecipesIndexImport } from "./routes/recipes/index";
+import { Route as R25compilerIndexImport } from "./routes/25_compiler/index";
 import { Route as R20usecontextIndexImport } from "./routes/20_use_context/index";
 import { Route as StaticPrivacyImport } from "./routes/_static/privacy";
 import { Route as StaticAboutImport } from "./routes/_static/about";
@@ -43,6 +44,12 @@ const RecipesIndexRoute = RecipesIndexImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => RecipesRouteRoute,
+} as any);
+
+const R25compilerIndexRoute = R25compilerIndexImport.update({
+  id: "/25_compiler/",
+  path: "/25_compiler/",
+  getParentRoute: () => rootRoute,
 } as any);
 
 const R20usecontextIndexRoute = R20usecontextIndexImport.update({
@@ -115,6 +122,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof R20usecontextIndexImport;
       parentRoute: typeof rootRoute;
     };
+    "/25_compiler/": {
+      id: "/25_compiler/";
+      path: "/25_compiler";
+      fullPath: "/25_compiler";
+      preLoaderRoute: typeof R25compilerIndexImport;
+      parentRoute: typeof rootRoute;
+    };
     "/recipes/": {
       id: "/recipes/";
       path: "/";
@@ -169,6 +183,7 @@ export interface FileRoutesByFullPath {
   "/about": typeof StaticAboutRoute;
   "/privacy": typeof StaticPrivacyRoute;
   "/20_use_context": typeof R20usecontextIndexRoute;
+  "/25_compiler": typeof R25compilerIndexRoute;
   "/recipes/": typeof RecipesIndexRoute;
   "/recipes/$recipeId": typeof RecipesRecipeIdIndexRoute;
 }
@@ -179,6 +194,7 @@ export interface FileRoutesByTo {
   "/about": typeof StaticAboutRoute;
   "/privacy": typeof StaticPrivacyRoute;
   "/20_use_context": typeof R20usecontextIndexRoute;
+  "/25_compiler": typeof R25compilerIndexRoute;
   "/recipes": typeof RecipesIndexRoute;
   "/recipes/$recipeId": typeof RecipesRecipeIdIndexRoute;
 }
@@ -191,6 +207,7 @@ export interface FileRoutesById {
   "/_static/about": typeof StaticAboutRoute;
   "/_static/privacy": typeof StaticPrivacyRoute;
   "/20_use_context/": typeof R20usecontextIndexRoute;
+  "/25_compiler/": typeof R25compilerIndexRoute;
   "/recipes/": typeof RecipesIndexRoute;
   "/recipes/$recipeId/": typeof RecipesRecipeIdIndexRoute;
 }
@@ -204,6 +221,7 @@ export interface FileRouteTypes {
     | "/about"
     | "/privacy"
     | "/20_use_context"
+    | "/25_compiler"
     | "/recipes/"
     | "/recipes/$recipeId";
   fileRoutesByTo: FileRoutesByTo;
@@ -213,6 +231,7 @@ export interface FileRouteTypes {
     | "/about"
     | "/privacy"
     | "/20_use_context"
+    | "/25_compiler"
     | "/recipes"
     | "/recipes/$recipeId";
   id:
@@ -223,6 +242,7 @@ export interface FileRouteTypes {
     | "/_static/about"
     | "/_static/privacy"
     | "/20_use_context/"
+    | "/25_compiler/"
     | "/recipes/"
     | "/recipes/$recipeId/";
   fileRoutesById: FileRoutesById;
@@ -233,6 +253,7 @@ export interface RootRouteChildren {
   StaticRouteRoute: typeof StaticRouteRouteWithChildren;
   RecipesRouteRoute: typeof RecipesRouteRouteWithChildren;
   R20usecontextIndexRoute: typeof R20usecontextIndexRoute;
+  R25compilerIndexRoute: typeof R25compilerIndexRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -240,6 +261,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaticRouteRoute: StaticRouteRouteWithChildren,
   RecipesRouteRoute: RecipesRouteRouteWithChildren,
   R20usecontextIndexRoute: R20usecontextIndexRoute,
+  R25compilerIndexRoute: R25compilerIndexRoute,
 };
 
 export const routeTree = rootRoute
@@ -255,7 +277,8 @@ export const routeTree = rootRoute
         "/",
         "/_static",
         "/recipes",
-        "/20_use_context/"
+        "/20_use_context/",
+        "/25_compiler/"
       ]
     },
     "/": {
@@ -285,6 +308,9 @@ export const routeTree = rootRoute
     },
     "/20_use_context/": {
       "filePath": "20_use_context/index.tsx"
+    },
+    "/25_compiler/": {
+      "filePath": "25_compiler/index.tsx"
     },
     "/recipes/": {
       "filePath": "recipes/index.tsx",
